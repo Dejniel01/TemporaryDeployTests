@@ -26,7 +26,7 @@ env:
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 permissions:
@@ -35,6 +35,10 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./Test/TestApi
 
     steps:
       - uses: actions/checkout@v3
@@ -53,16 +57,16 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Init secrets
-        run: dotnet user-secrets -p Test/TestApi init
+        run: dotnet user-secrets init
 
       - name: Set secret 1
-        run: dotnet user-secrets -p Test/TestApi set "db" "${{ secrets.RDB_CONNECTION_STRING }}"
+        run: dotnet user-secrets set "db" "${{ secrets.RDB_CONNECTION_STRING }}"
 
       - name: Set secret 2
-        run: dotnet user-secrets -p Test/TestApi set "Jwt:Firebase:ValidIssuer" "${{ secrets.JWT_FIREBASE_VALIDISSUER }}"
+        run: dotnet user-secrets set "Jwt:Firebase:ValidIssuer" "${{ secrets.JWT_FIREBASE_VALIDISSUER }}"
 
       - name: Set secret 3
-        run: dotnet user-secrets -p Test/TestApi set "Jwt:Firebase:ValidAudience" "${{ secrets.JWT_FIREBASE_VALIDAUDIENCE }}"
+        run: dotnet user-secrets set "Jwt:Firebase:ValidAudience" "${{ secrets.JWT_FIREBASE_VALIDAUDIENCE }}"
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
