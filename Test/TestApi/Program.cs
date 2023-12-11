@@ -38,12 +38,13 @@ namespace TestApi
 
             app.MapGet("/test", () =>
             {
-                return new TestResponse()
-                {
-                    Rdb = builder.Configuration["db"],
-                    Issuer = builder.Configuration["Jwt:Firebase:ValidIssuer"],
-                    Audience = builder.Configuration["Jwt:Firebase:ValidAudience"],
-                };
+                return builder.Configuration.AsEnumerable();
+                //return new TestResponse()
+                //{
+                //    Rdb = builder.Configuration["db"],
+                //    Issuer = builder.Configuration["Jwt:Firebase:ValidIssuer"],
+                //    Audience = builder.Configuration["Jwt:Firebase:ValidAudience"],
+                //};
             });
 
             app.MapGet("/weatherforecast", (HttpContext httpContext) =>
