@@ -60,13 +60,19 @@ jobs:
         run: dotnet user-secrets init
 
       - name: Set secret 1
-        run: dotnet user-secrets set "db" "${{ secrets.RDB_CONNECTION_STRING }}"
+        env:
+          DB: ${{ secrets.RDB_CONNECTION_STRING }}
+        run: dotnet user-secrets set "db" "$DB"
 
       - name: Set secret 2
-        run: dotnet user-secrets set "Jwt:Firebase:ValidIssuer" "${{ secrets.JWT_FIREBASE_VALIDISSUER }}"
+        env:
+          ISS: ${{ secrets.JWT_FIREBASE_VALIDISSUER }}
+        run: dotnet user-secrets set "Jwt:Firebase:ValidIssuer" "$ISS"
 
       - name: Set secret 3
-        run: dotnet user-secrets set "Jwt:Firebase:ValidAudience" "${{ secrets.JWT_FIREBASE_VALIDAUDIENCE }}"
+        env:
+          AUD: ${{ secrets.JWT_FIREBASE_VALIDAUDIENCE }}
+        run: dotnet user-secrets set "Jwt:Firebase:ValidAudience" "$AUD"
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
