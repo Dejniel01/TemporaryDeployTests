@@ -100,7 +100,7 @@ jobs:
         with:
           azcliversion: 2.0.72
           inlineScript: |
-            az webapp config appsettings set --settings db="${{ secrets.RDB_CONNECTION_STRING }}" "Jwt:Firebase:ValidIssuer"="${{ secrets.JWT_FIREBASE_VALIDISSUER }}" "Jwt:Firebase:ValidAudience"="${{ secrets.JWT_FIREBASE_VALIDAUDIENCE }}"
+            az webapp config appsettings set --name CCQuartersAPI --resource-group CCQuartersResources --settings db="${{ secrets.RDB_CONNECTION_STRING }}" "Jwt:Firebase:ValidIssuer"="${{ secrets.JWT_FIREBASE_VALIDISSUER }}" "Jwt:Firebase:ValidAudience"="${{ secrets.JWT_FIREBASE_VALIDAUDIENCE }}"
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
