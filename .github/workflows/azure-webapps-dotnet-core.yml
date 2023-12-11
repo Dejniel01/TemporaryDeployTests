@@ -95,6 +95,13 @@ jobs:
         with:
           name: .net-app
 
+      - name: Set Application Settings in Azure Web App
+        uses: azure/cli@v1
+        with:
+          azcliversion: 2.0.72
+          inlineScript: |
+            az webapp config appsettings set --settings db="${{ secrets.RDB_CONNECTION_STRING }}" "Jwt:Firebase:ValidIssuer"="${{ secrets.JWT_FIREBASE_VALIDISSUER }}" "Jwt:Firebase:ValidAudience"="${{ secrets.JWT_FIREBASE_VALIDAUDIENCE }}"
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
