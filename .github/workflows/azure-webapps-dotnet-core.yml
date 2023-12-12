@@ -61,17 +61,17 @@ jobs:
 
       - name: Set secret 1
         env:
-          DB: ${{ secrets.RDB_CONNECTION_STRING }}
+          DB: testDB
         run: dotnet user-secrets set "db" "$DB"
 
       - name: Set secret 2
         env:
-          ISS: ${{ secrets.JWT_FIREBASE_VALIDISSUER }}
+          ISS: testISS
         run: dotnet user-secrets set "Jwt:Firebase:ValidIssuer" "$ISS"
 
       - name: Set secret 3
         env:
-          AUD: ${{ secrets.JWT_FIREBASE_VALIDAUDIENCE }}
+          AUD: testAUD
         run: dotnet user-secrets set "Jwt:Firebase:ValidAudience" "$AUD"
 
       - name: Build with dotnet
