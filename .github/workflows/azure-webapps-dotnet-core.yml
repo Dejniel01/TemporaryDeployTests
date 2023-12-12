@@ -75,6 +75,10 @@ jobs:
         run: dotnet user-secrets set "Jwt:Firebase:ValidAudience" "$AUD"
 
       - name: Build with dotnet
+        env:
+          DB: ${{ secrets.RDB_CONNECTION_STRING }}
+          ISS: ${{ secrets.JWT_FIREBASE_VALIDISSUER }}
+          AUD: ${{ secrets.JWT_FIREBASE_VALIDAUDIENCE }}
         run: dotnet build --configuration Release
 
       - name: dotnet publish
