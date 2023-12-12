@@ -38,7 +38,8 @@ namespace TestApi
 
             app.MapGet("/test", () =>
             {
-                return builder.Configuration.AsEnumerable();
+                return Environment.GetEnvironmentVariables();
+                //return builder.Configuration.AsEnumerable();
                 //return new TestResponse()
                 //{
                 //    Rdb = builder.Configuration["db"],
