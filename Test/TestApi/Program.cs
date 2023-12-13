@@ -38,7 +38,15 @@ namespace TestApi
 
             app.MapGet("/test", () =>
             {
-                return Environment.GetEnvironmentVariables();
+                return new TestResponse()
+                {
+                    Variables = Environment.GetEnvironmentVariables(),
+                    Rdb = Environment.GetEnvironmentVariable("APPSETTING_RDB_CONNECTION_STRING"),
+                    Issuer = Environment.GetEnvironmentVariable("APPSETTING_JWT_FIREBASE_VALID_ISSUER"),
+                    Audience = Environment.GetEnvironmentVariable("APPSETTING_JWT_FIREBASE_VALID_AUDIENCE"),
+
+                };
+                //return Environment.GetEnvironmentVariables();
                 //return builder.Configuration.AsEnumerable();
                 //return new TestResponse()
                 //{
