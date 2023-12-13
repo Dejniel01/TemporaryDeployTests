@@ -75,12 +75,24 @@ jobs:
         run: dotnet user-secrets set "Jwt:Firebase:ValidAudience" "$AUD"
 
       - name: Build with dotnet
+        env:
+          DB: ${{ secrets.RDB_CONNECTION_STRING }}
+          ISS: ${{ secrets.JWT_FIREBASE_VALIDISSUER }}
+          AUD: ${{ secrets.JWT_FIREBASE_VALIDAUDIENCE }}
         run: dotnet build --configuration Release
 
       - name: dotnet publish
+        env:
+          DB: ${{ secrets.RDB_CONNECTION_STRING }}
+          ISS: ${{ secrets.JWT_FIREBASE_VALIDISSUER }}
+          AUD: ${{ secrets.JWT_FIREBASE_VALIDAUDIENCE }}
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
+        env:
+          DB: ${{ secrets.RDB_CONNECTION_STRING }}
+          ISS: ${{ secrets.JWT_FIREBASE_VALIDISSUER }}
+          AUD: ${{ secrets.JWT_FIREBASE_VALIDAUDIENCE }}
         uses: actions/upload-artifact@v3
         with:
           name: .net-app
@@ -97,14 +109,27 @@ jobs:
 
     steps:
       - name: Download artifact from build job
+        env:
+          DB: ${{ secrets.RDB_CONNECTION_STRING }}
+          ISS: ${{ secrets.JWT_FIREBASE_VALIDISSUER }}
+          AUD: ${{ secrets.JWT_FIREBASE_VALIDAUDIENCE }}
         uses: actions/download-artifact@v3
         with:
           name: .net-app
           
       - name: Deploy to Azure Web App
+        env:
+          DB: ${{ secrets.RDB_CONNECTION_STRING }}
+          ISS: ${{ secrets.JWT_FIREBASE_VALIDISSUER }}
+          AUD: ${{ secrets.JWT_FIREBASE_VALIDAUDIENCE }}
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.CCQUARTERSAPI_PUBLISH_PROFILE }}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          env: |
+            DB: testDB
+            ISS: testISS
+            AUD: testAUD
+          
