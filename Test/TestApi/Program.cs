@@ -1,5 +1,7 @@
 
+using System.Data.SqlClient;
 using System.Reflection;
+using Dapper;
 
 namespace TestApi
 {
@@ -38,14 +40,27 @@ namespace TestApi
 
             app.MapGet("/test", () =>
             {
-                return new TestResponse()
+                try
                 {
-                    Variables = Environment.GetEnvironmentVariables(),
-                    Rdb = Environment.GetEnvironmentVariable("APPSETTING_RDB_CONNECTION_STRING"),
-                    Issuer = Environment.GetEnvironmentVariable("APPSETTING_JWT_FIREBASE_VALID_ISSUER"),
-                    Audience = Environment.GetEnvironmentVariable("APPSETTING_JWT_FIREBASE_VALID_AUDIENCE"),
+                    using var sql = new SqlConnection(Environment.GetEnvironmentVariable("APPSETTING_RDB_CONNECTION_STRING"));
 
-                };
+                    var queried = sql.QueryAsync("SELECT TOP 10 * FROM Houses");
+
+                    return null;
+                }
+                catch(Exception e)
+                {
+                    return e;
+                }
+
+                //return new TestResponse()
+                //{
+                //    Variables = Environment.GetEnvironmentVariables(),
+                //    Rdb = Environment.GetEnvironmentVariable("APPSETTING_RDB_CONNECTION_STRING"),
+                //    Issuer = Environment.GetEnvironmentVariable("APPSETTING_JWT_FIREBASE_VALID_ISSUER"),
+                //    Audience = Environment.GetEnvironmentVariable("APPSETTING_JWT_FIREBASE_VALID_AUDIENCE"),
+
+                //};
                 //return Environment.GetEnvironmentVariables();
                 //return builder.Configuration.AsEnumerable();
                 //return new TestResponse()
